@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай слово</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            flex-direction: column;
+            text-align: center;
+        }
+        .question {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            margin: 0 5px;
+            border: 2px solid #000;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ccc;
+            position: relative;
+        }
+        .cell span {
+            position: absolute;
+            opacity: 0;  /* Скрываем буквы */
+            transform: translateY(20px); /* Смещаем вниз */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #nextButton {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="question" id="questionText"></div>
+    <div class="grid" id="gridContainer"></div>
+    <button id="checkButton" class="button">Проверить</button>
+    <button id="nextButton" class="button">Следующий</button>
+
+    <script>
+        // Настройки: здесь меняешь данные
+        let question = "Что устанавливает правила и нормы в обществе?"; // Вопрос
+        let word = "Закон"; // Слово (можно менять длину)
+        
+        // Устанавливаем вопрос
+        document.getElementById("questionText").textContent = question;
+
+        // Создаём клетки сразу, но буквы скрыты
+        let gridContainer = document.getElementById("gridContainer");
+        let cells = [];
+        for (let i = 0; i < word.length; i++) {
+            let cell = document.createElement("div");
+            cell.classList.add("cell");
+            
+            let span = document.createElement("span");
+            span.textContent = word[i];
+            
+            cell.appendChild(span);
+            gridContainer.appendChild(cell);
+            cells.push(span);
+        }
+
+        document.getElementById("checkButton").addEventListener("click", function() {
+            let index = 0;
+            let interval = setInterval(function() {
+                if (index < cells.length) {
+                    cells[index].style.opacity = "1";
+                    cells[index].style.transform = "translateY(0)";
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById("nextButton").style.display = "inline-block";
+                }
+            }, 500); // Интервал появления букв
+        });
+
+        document.getElementById("nextButton").addEventListener("click", function() {
+            location.href = "question 8.html"
+        });
+    </script>
+</body>
+</html>
